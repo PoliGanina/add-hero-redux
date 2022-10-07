@@ -12,7 +12,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form, Field } from "formik";
 import { v4 as uuidv4 } from "uuid";
-import { heroAdded } from "../../actions";
+import { heroAdded } from "../heroesList/heroesSlice";
 import { useHttp } from "../../hooks/http.hook";
 
 const HeroesAddForm = () => {
@@ -21,19 +21,23 @@ const HeroesAddForm = () => {
   const [heroElement, setHeroElement] = useState("");
 
   const { request } = useHttp();
-  const { heroes, filters } = useSelector((state) => state);
+  const { filters } = useSelector((state) => state.filters);
+
+  const { heroes } = useSelector((state) => state.heroes);
+
   const dispatch = useDispatch();
 
-  const onAdd = (e) => {
+  const onAdd = () => {
     const newHero = {
       id: uuidv4(),
       name: heroName,
       description: heroDescr,
       element: heroElement,
     };
+    const updatedHeroes = [...heroes, newHero];
+
     request(`http://localhost:3001/heroes/`, "POST", JSON.stringify(newHero))
-      .then((data) => console.log(data, "Added"))
-      .then(dispatch(heroAdded(newHero, heroes)))
+      .then(dispatch(heroAdded(updatedHeroes)))
       .catch((err) => console.log(err));
 
     setHeroName("");
@@ -98,11 +102,11 @@ const HeroesAddForm = () => {
             value={heroElement}
             onChange={(e) => setHeroElement(e.target.value)}
           >
-            {filtersRender.map((item) => {
+            {filtersRender.map(({ name, label }) => {
               const id = uuidv4();
               return (
-                <option key={id} value={item}>
-                  {item}
+                <option key={id} value={name}>
+                  {label}
                 </option>
               );
             })}

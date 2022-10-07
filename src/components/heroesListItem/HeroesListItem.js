@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 
 const HeroesListItem = ({ name, description, element, id, onDelete }) => {
-  const { heroes } = useSelector((state) => state);
+  const { heroes } = useSelector((state) => state.heroes);
 
   let elementClassName;
 
