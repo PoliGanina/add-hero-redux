@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import hero from "./ahero_mini.png";
 
 const HeroesListItem = ({ name, description, element, id, onDelete }) => {
   const { heroes } = useSelector((state) => state.heroes);
@@ -27,7 +28,7 @@ const HeroesListItem = ({ name, description, element, id, onDelete }) => {
       className={`card flex-row mb-4 shadow-lg text-white ${elementClassName}`}
     >
       <img
-        src="http://www.stpaulsteinbach.org/wp-content/uploads/2014/09/unknown-hero.jpg"
+        src={hero}
         className="img-fluid w-25 d-inline"
         alt="unknown hero"
         style={{ objectFit: "cover" }}

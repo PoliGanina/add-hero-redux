@@ -13,10 +13,22 @@
       "element": "wind"
     },
     {
-      "id": "ff482543-c27e-4c54-a82b-efad214e5556",
-      "name": "Lea",
-      "description": "ndqodqo",
+      "id": "3bb3037c-c115-4574-afff-fc0c3ef908e3",
+      "name": "Adelaida",
+      "description": "Heroes of might and magic III",
       "element": "earth"
+    },
+    {
+      "id": "5cb096ce-e544-4531-831c-57bfe66949f5",
+      "name": "Eloise",
+      "description": "I ran faster then the wind",
+      "element": "wind"
+    },
+    {
+      "id": "d81764f7-0d89-4d69-af3a-be66b69f1ebe",
+      "name": "Eveline",
+      "description": "I can swim with dolphins",
+      "element": "water"
     }
   ],
   "filters": [

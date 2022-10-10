@@ -23,8 +23,6 @@ const HeroesAddForm = () => {
   const { request } = useHttp();
   const { filters } = useSelector((state) => state.filters);
 
-  const { heroes } = useSelector((state) => state.heroes);
-
   const dispatch = useDispatch();
 
   const onAdd = () => {
@@ -34,10 +32,9 @@ const HeroesAddForm = () => {
       description: heroDescr,
       element: heroElement,
     };
-    const updatedHeroes = [...heroes, newHero];
 
     request(`http://localhost:3001/heroes/`, "POST", JSON.stringify(newHero))
-      .then(dispatch(heroAdded(updatedHeroes)))
+      .then(dispatch(heroAdded(newHero)))
       .catch((err) => console.log(err));
 
     setHeroName("");

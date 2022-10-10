@@ -2,32 +2,28 @@ import { useHttp } from "../../hooks/http.hook";
 import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { heroDeleted, fetchHeroes } from "./heroesSlice";
+import {
+  heroDeleted,
+  fetchHeroes,
+  filteredHeroesSelector,
+  // selectAll,
+} from "./heroesSlice";
+// import store from "../../store";
+
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from "../spinner/Spinner";
-import { createSelector } from "@reduxjs/toolkit";
 
 const HeroesList = () => {
-  const filteredHeroesSelector = createSelector(
-    (state) => state.filters.filter,
-    (state) => state.heroes.heroes,
-    (filter, heroes) => {
-      if (filter === "all") {
-        return heroes;
-      } else {
-        return heroes.filter((item) => item.element === filter);
-      }
-    }
+  const heroesFiltered = useSelector(filteredHeroesSelector);
+  // const heroes = selectAll(store.getState());
+  const heroesLoadingStatus = useSelector(
+    (state) => state.heroes.heroesLoadingStatus
   );
-  const { heroes, heroesLoadingStatus } = useSelector((state) => state.heroes);
-  const { filter } = useSelector((state) => state.filters);
   const dispatch = useDispatch();
   const { request } = useHttp();
 
-  const heroesFiltered = useSelector(filteredHeroesSelector);
-
   useEffect(() => {
-    dispatch(fetchHeroes(request));
+    dispatch(fetchHeroes());
     // eslint-disable-next-line
   }, []);
 
@@ -60,18 +56,12 @@ const HeroesList = () => {
 
     return arr.map(({ id, ...props }) => {
       return (
-        <HeroesListItem
-          key={id}
-          {...props}
-          onDelete={() => onDelete(heroes, id)}
-        />
+        <HeroesListItem key={id} {...props} onDelete={() => onDelete(id)} />
       );
     });
   };
 
-  const elements = filter
-    ? renderHeroesList(heroesFiltered)
-    : renderHeroesList(heroes);
+  const elements = renderHeroesList(heroesFiltered);
 
   return <ul>{elements}</ul>;
 };
